@@ -3,86 +3,62 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="EduConecta: cursos acadêmicos, pesquisa e tecnologia.">
   <title>EduConecta - Plataforma de Cursos</title>
   <link rel="stylesheet" href="person.css">
+  <script src="script.js" defer></script>
 </head>
 <body>
   <a href="#conteudo-principal" class="skip-link">Pular para o conteúdo principal</a>
-
-  <header>
-    <div class="container header-conteudo">
-      <a href="index.html" class="logo">EduConecta</a>
-      <nav aria-label="Navegação principal">
-        <ul>
-          <li><a href="index.html" class="ativo">Início</a></li>
-          <li><a href="catalogo.html">Catálogo</a></li>
-          <li><a href="aluno.html">Área do Aluno</a></li>
-          <li><a href="instrutor.html">Área do Instrutor</a></li>
-          <li><a href="auth.html">Entrar / Cadastrar</a></li>
-        </ul>
-      </nav>
-    </div>
-  </header>
-
+  <header><div class="container header-conteudo">
+    <a href="pagina.html" class="logo">EduConecta</a>
+    <nav aria-label="Navegação principal"><ul>
+      <li><a href="pagina.html" class="ativo" aria-current="page">Início</a></li>
+      <li><a href="catalogo.html">Catálogo</a></li>
+      <li><a href="aluno.html">Área do Aluno</a></li>
+      <li><a href="instrutor.html">Área do Instrutor</a></li>
+      <li><a href="auth.html">Entrar / Cadastrar</a></li>
+    </ul></nav>
+  </div></header>
   <main id="conteudo-principal" class="container">
     <section class="hero" aria-labelledby="titulo-hero">
       <h1 id="titulo-hero">Conhecimento conectado para alunos, pesquisadores e instrutores</h1>
       <p>Explore cursos acadêmicos, oficinas de pesquisa e formações técnicas desenvolvidas pela comunidade.</p>
       <a href="catalogo.html" class="btn">Explorar Catálogo de Cursos</a>
     </section>
-
     <section aria-labelledby="titulo-destaques">
       <h2 id="titulo-destaques" class="titulo-secao">Cursos em Destaque</h2>
       <div class="grid-cursos">
         <article class="card-curso">
           <img src="https://placehold.co/600x300/1e40af/ffffff?text=Desenvolvimento+Web+I" alt="Ilustração do curso de Desenvolvimento Web I com ícones de HTML e CSS">
-          <div class="card-corpo">
-            <span class="badge">Tecnologia</span>
+          <div class="card-corpo"><span class="badge">Tecnologia</span>
             <h3>Fundamentos de Desenvolvimento Web I</h3>
             <p>Aprenda HTML5 semântico, CSS3 responsivo, Flexbox, Grid e boas práticas de acessibilidade na web.</p>
-            <div class="card-meta">
-              <span>Prof. Diogo Alves</span>
-              <span>40h</span>
-            </div>
-            <a href="detalhes.html" class="btn">Ver Detalhes</a>
+            <div class="card-meta"><span>Prof. Diogo Alves</span><span>40h</span></div>
+            <a href="catalogo.html" class="btn">Ver no catálogo</a>
           </div>
         </article>
-
         <article class="card-curso">
           <img src="https://placehold.co/600x300/0f766e/ffffff?text=Metodologia+Cientifica" alt="Ilustração do curso de Metodologia Científica para pesquisadores">
-          <div class="card-corpo">
-            <span class="badge">Pesquisa</span>
+          <div class="card-corpo"><span class="badge">Pesquisa</span>
             <h3>Metodologia da Pesquisa Científica</h3>
             <p>Estruturação de artigos acadêmicos, revisão bibliográfica e normas técnicas para pesquisadores.</p>
-            <div class="card-meta">
-              <span>Prof. Jailson</span>
-              <span>30h</span>
-            </div>
-            <a href="detalhes.html" class="btn">Ver Detalhes</a>
+            <div class="card-meta"><span>Prof. Jailson</span><span>30h</span></div>
+            <a href="catalogo.html" class="btn">Ver no catálogo</a>
           </div>
         </article>
-
         <article class="card-curso">
           <img src="https://placehold.co/600x300/334155/ffffff?text=Banco+de+Dados" alt="Ilustração do curso de Modelagem de Banco de Dados">
-          <div class="card-corpo">
-            <span class="badge">Dados</span>
+          <div class="card-corpo"><span class="badge">Dados</span>
             <h3>Modelagem e Projeto de Banco de Dados</h3>
             <p>Conceitos de modelagem entidade-relacionamento, normalização e consultas SQL essenciais.</p>
-            <div class="card-meta">
-              <span>Prof. Luiz O. Gonzaga</span>
-              <span>45h</span>
-            </div>
-            <a href="detalhes.html" class="btn">Ver Detalhes</a>
+            <div class="card-meta"><span>Prof. Luiz O. Gonzaga</span><span>45h</span></div>
+            <a href="catalogo.html" class="btn">Ver no catálogo</a>
           </div>
         </article>
       </div>
     </section>
   </main>
-
-  <footer>
-    <div class="container">
-      <p>Projeto Final de Web I - IFPB | Equipe: Diogo, Jailson e Luiz O. Gonzaga</p>
-    </div>
-  </footer>
+  <footer><div class="container"><p>Projeto Final de Web I - IFPB | Equipe: Diogo, Jailson e Luiz O. Gonzaga</p></div></footer>
 </body>
 </html>
