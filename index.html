@@ -1,0 +1,1024 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="EduConecta: cursos acadêmicos, pesquisa e tecnologia.">
+  <title>EduConecta - Plataforma de Cursos</title>
+  <style>
+    :root {
+      --cor-primaria: #1e40af;
+      --cor-primaria-hover: #1d4ed8;
+      --cor-secundaria: #0f766e;
+      --cor-fundo: #f8fafc;
+      --cor-superficie: #ffffff;
+      --cor-texto: #0f172a;
+      --cor-texto-suave: #475569;
+      --cor-borda: #cbd5e1;
+      --borda-raio: 0.5rem;
+      --sombra-card: 0 4px 6px -1px rgba(15, 23, 42, 0.08), 0 2px 4px -2px rgba(15, 23, 42, 0.06);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background-color: var(--cor-fundo);
+      color: var(--cor-texto);
+      line-height: 1.6;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .skip-link {
+      position: absolute;
+      left: -9999px;
+      top: 0;
+      background: var(--cor-primaria);
+      color: #fff;
+      padding: 0.75rem 1rem;
+      z-index: 2000;
+      text-decoration: none;
+      font-weight: 600;
+    }
+    .skip-link:focus {
+      left: 1rem;
+      top: 1rem;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 0 1.25rem;
+    }
+
+    header {
+      background-color: var(--cor-superficie);
+      border-bottom: 1px solid var(--cor-borda);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .header-conteudo {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.75rem;
+      padding-top: 1rem;
+      padding-bottom: 1rem;
+    }
+
+    .logo {
+      font-size: 1.5rem;
+      font-weight: 800;
+      color: var(--cor-primaria);
+      text-decoration: none;
+      letter-spacing: -0.02em;
+      cursor: pointer;
+    }
+
+    nav ul {
+      list-style: none;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    nav a, nav button.nav-link {
+      display: inline-block;
+      padding: 0.45rem 0.85rem;
+      border-radius: var(--borda-raio);
+      text-decoration: none;
+      color: var(--cor-texto);
+      font-weight: 500;
+      font-size: 0.95rem;
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      transition: background-color 0.15s, color 0.15s;
+    }
+
+    nav a:hover, nav button.nav-link:hover {
+      background-color: #e2e8f0;
+    }
+
+    nav a.ativo, nav button.nav-link.ativo {
+      background-color: #dbeafe;
+      color: var(--cor-primaria);
+      font-weight: 700;
+    }
+
+    main {
+      flex: 1;
+      padding-top: 2rem;
+      padding-bottom: 3rem;
+    }
+
+    .view-section {
+      display: none;
+    }
+    .view-section.ativa {
+      display: block;
+    }
+
+    .hero {
+      background: linear-gradient(135deg, #1e3a8a 0%, #1e40af 60%, #0f766e 100%);
+      color: #ffffff;
+      padding: 3rem 2rem;
+      border-radius: 0.75rem;
+      margin-bottom: 2.5rem;
+      box-shadow: var(--sombra-card);
+    }
+
+    .hero h1 {
+      font-size: clamp(1.65rem, 3.5vw, 2.35rem);
+      line-height: 1.2;
+      margin-bottom: 1rem;
+      max-width: 28ch;
+    }
+
+    .hero p {
+      font-size: 1.05rem;
+      color: #e0f2fe;
+      max-width: 58ch;
+      margin-bottom: 1.5rem;
+    }
+
+    .hero .btn {
+      background-color: #ffffff;
+      color: var(--cor-primaria);
+    }
+    .hero .btn:hover {
+      background-color: #f1f5f9;
+    }
+
+    .titulo-secao {
+      font-size: 1.6rem;
+      margin-bottom: 1rem;
+      color: var(--cor-texto);
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0.6rem 1.15rem;
+      background-color: var(--cor-primaria);
+      color: #ffffff;
+      font-weight: 600;
+      font-size: 0.95rem;
+      border: 1px solid transparent;
+      border-radius: var(--borda-raio);
+      text-decoration: none;
+      cursor: pointer;
+      transition: background-color 0.15s, border-color 0.15s;
+    }
+
+    .btn:hover:not(:disabled) {
+      background-color: var(--cor-primaria-hover);
+    }
+
+    .btn-secundario {
+      background-color: var(--cor-superficie);
+      color: var(--cor-texto);
+      border-color: var(--cor-borda);
+    }
+
+    .btn-secundario:hover:not(:disabled) {
+      background-color: #f1f5f9;
+    }
+
+    .btn-secundario[aria-pressed="true"] {
+      background-color: #fef3c7;
+      border-color: #f59e0b;
+      color: #92400e;
+    }
+
+    .grid-cursos {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
+      margin-top: 1.25rem;
+    }
+
+    .card-curso {
+      background-color: var(--cor-superficie);
+      border: 1px solid var(--cor-borda);
+      border-radius: var(--borda-raio);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      box-shadow: var(--sombra-card);
+    }
+
+    .card-curso img {
+      width: 100%;
+      height: 165px;
+      object-fit: cover;
+      display: block;
+    }
+
+    .card-corpo {
+      padding: 1.25rem;
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+      gap: 0.65rem;
+    }
+
+    .badge {
+      align-self: flex-start;
+      background-color: #dbeafe;
+      color: #1e40af;
+      font-size: 0.78rem;
+      font-weight: 700;
+      padding: 0.2rem 0.6rem;
+      border-radius: 999px;
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+    }
+
+    .card-corpo h3 {
+      font-size: 1.15rem;
+      line-height: 1.3;
+    }
+
+    .card-corpo p {
+      color: var(--cor-texto-suave);
+      font-size: 0.95rem;
+    }
+
+    .card-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.875rem;
+      color: var(--cor-texto-suave);
+      padding-top: 0.5rem;
+      border-top: 1px solid #e2e8f0;
+    }
+
+    .painel-filtros, .card-form, .box-destaque {
+      background-color: var(--cor-superficie);
+      border: 1px solid var(--cor-borda);
+      border-radius: var(--borda-raio);
+      padding: 1.5rem;
+      box-shadow: var(--sombra-card);
+    }
+
+    .painel-filtros {
+      margin: 1.25rem 0 1.75rem;
+    }
+
+    .form-grid, .layout-duas-colunas {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1.25rem;
+    }
+
+    .campo-grupo {
+      display: flex;
+      flex-direction: column;
+      gap: 0.35rem;
+    }
+
+    .campo-grupo label {
+      font-weight: 600;
+      font-size: 0.92rem;
+    }
+
+    .campo-grupo input,
+    .campo-grupo select {
+      padding: 0.6rem 0.75rem;
+      border: 1px solid var(--cor-borda);
+      border-radius: var(--borda-raio);
+      font-size: 0.95rem;
+      background-color: #ffffff;
+      color: var(--cor-texto);
+    }
+
+    .campo-grupo input:focus,
+    .campo-grupo select:focus {
+      outline: 2px solid var(--cor-primaria);
+      outline-offset: 1px;
+    }
+
+    /* Complementos da versão beta — componentes JavaScript (person.css) */
+    .linha-filtros {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      margin-top: 1rem;
+    }
+    .acoes-curso {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.6rem;
+      margin-top: auto;
+      padding-top: 0.5rem;
+    }
+    .acoes-curso .btn {
+      flex: 1 1 9rem;
+    }
+    .estado-vazio {
+      grid-column: 1 / -1;
+      padding: 1.5rem;
+      text-align: center;
+      background: var(--cor-superficie);
+      border: 1px dashed var(--cor-borda);
+      border-radius: var(--borda-raio);
+    }
+    .mensagem-global {
+      position: fixed;
+      z-index: 1000;
+      right: 1rem;
+      bottom: 1rem;
+      max-width: min(90vw, 28rem);
+      padding: 1rem 1.25rem;
+      background: #dcfce7;
+      color: #14532d;
+      border: 1px solid #86efac;
+      border-radius: var(--borda-raio);
+      box-shadow: var(--sombra-card);
+      font-weight: 500;
+    }
+    .mensagem-global[data-type="error"] {
+      background: #fee2e2;
+      color: #991b1b;
+      border-color: #fca5a5;
+    }
+    .mensagem-global[data-type="info"] {
+      background: #dbeafe;
+      color: #1e3a8a;
+      border-color: #93c5fd;
+    }
+    .card-form form {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      margin-top: 1rem;
+    }
+    .card-form h2 {
+      margin-bottom: .5rem;
+    }
+    .aviso-prototipo {
+      margin: 1.5rem 0;
+      padding: 1rem;
+      background: #fff7ed;
+      border-left: 4px solid #c2410c;
+      border-radius: .35rem;
+      color: #7c2d12;
+    }
+    #area-aluno-conteudo {
+      margin: 1.5rem 0;
+    }
+    #area-aluno-conteudo .lista-aulas {
+      padding: 0;
+      margin-top: 1rem;
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.6rem;
+    }
+    #area-aluno-conteudo .lista-aulas li {
+      padding: 0.75rem 1rem;
+      background: var(--cor-fundo);
+      border: 1px solid var(--cor-borda);
+      border-radius: var(--borda-raio);
+    }
+    .box-destaque p + p {
+      margin-top: 0.75rem;
+    }
+    .box-destaque .btn {
+      margin-top: 1.25rem;
+    }
+    button:disabled {
+      opacity: .65;
+      cursor: not-allowed;
+    }
+
+    footer {
+      background-color: var(--cor-superficie);
+      border-top: 1px solid var(--cor-borda);
+      padding: 1.5rem 0;
+      text-align: center;
+      color: var(--cor-texto-suave);
+      font-size: 0.9rem;
+    }
+
+    @media (min-width: 640px) {
+      .grid-cursos {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+      .form-grid {
+        grid-template-columns: 2fr 1fr;
+      }
+      .layout-duas-colunas {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+    @media (min-width: 960px) {
+      .grid-cursos {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+      .header-conteudo {
+        flex-direction: row;
+        justify-content: space-between;
+      }
+    }
+  </style>
+</head>
+<body>
+  <a href="#conteudo-principal" class="skip-link">Pular para o conteúdo principal</a>
+
+  <header>
+    <div class="container header-conteudo">
+      <a href="#inicio" class="logo" data-route="inicio">EduConecta</a>
+      <nav aria-label="Navegação principal">
+        <ul>
+          <li><button type="button" class="nav-link ativo" data-route="inicio" aria-current="page">Início</button></li>
+          <li><button type="button" class="nav-link" data-route="catalogo">Catálogo</button></li>
+          <li><button type="button" class="nav-link" data-route="aluno">Área do Aluno</button></li>
+          <li><button type="button" class="nav-link" data-route="instrutor">Área do Instrutor</button></li>
+          <li id="nav-item-auth"><button type="button" class="nav-link" data-route="auth">Entrar / Cadastrar</button></li>
+          <li id="nav-item-logout" hidden><button type="button" class="btn btn-secundario" data-logout>Sair</button></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main id="conteudo-principal" class="container">
+    <!-- 1. PÁGINA INICIAL (pagina.html) -->
+    <div id="view-inicio" class="view-section ativa">
+      <section class="hero" aria-labelledby="titulo-hero">
+        <h1 id="titulo-hero">Conhecimento conectado para alunos, pesquisadores e instrutores</h1>
+        <p>Explore cursos acadêmicos, oficinas de pesquisa e formações técnicas desenvolvidas pela comunidade.</p>
+        <button type="button" class="btn" data-route="catalogo">Explorar Catálogo de Cursos</button>
+      </section>
+
+      <section aria-labelledby="titulo-destaques">
+        <h2 id="titulo-destaques" class="titulo-secao">Cursos em Destaque</h2>
+        <div class="grid-cursos">
+          <article class="card-curso">
+            <img src="https://placehold.co/600x300/1e40af/ffffff?text=Desenvolvimento+Web+I" alt="Ilustração do curso de Desenvolvimento Web I com ícones de HTML e CSS">
+            <div class="card-corpo">
+              <span class="badge">Tecnologia</span>
+              <h3>Fundamentos de Desenvolvimento Web I</h3>
+              <p>Aprenda HTML5 semântico, CSS3 responsivo, Flexbox, Grid e boas práticas de acessibilidade na web.</p>
+              <div class="card-meta"><span>Prof. Diogo Alves</span><span>40h</span></div>
+              <button type="button" class="btn" data-route="catalogo">Ver no catálogo</button>
+            </div>
+          </article>
+          <article class="card-curso">
+            <img src="https://placehold.co/600x300/0f766e/ffffff?text=Metodologia+Cientifica" alt="Ilustração do curso de Metodologia Científica para pesquisadores">
+            <div class="card-corpo">
+              <span class="badge">Pesquisa</span>
+              <h3>Metodologia da Pesquisa Científica</h3>
+              <p>Estruturação de artigos acadêmicos, revisão bibliográfica e normas técnicas para pesquisadores.</p>
+              <div class="card-meta"><span>Prof. Jailson</span><span>30h</span></div>
+              <button type="button" class="btn" data-route="catalogo">Ver no catálogo</button>
+            </div>
+          </article>
+          <article class="card-curso">
+            <img src="https://placehold.co/600x300/334155/ffffff?text=Banco+de+Dados" alt="Ilustração do curso de Modelagem de Banco de Dados">
+            <div class="card-corpo">
+              <span class="badge">Dados</span>
+              <h3>Modelagem e Projeto de Banco de Dados</h3>
+              <p>Conceitos de modelagem entidade-relacionamento, normalização e consultas SQL essenciais.</p>
+              <div class="card-meta"><span>Prof. Luiz O. Gonzaga</span><span>45h</span></div>
+              <button type="button" class="btn" data-route="catalogo">Ver no catálogo</button>
+            </div>
+          </article>
+        </div>
+      </section>
+    </div>
+
+    <!-- 2. CATÁLOGO DE CURSOS (catalogo.html) -->
+    <div id="view-catalogo" class="view-section">
+      <h1 class="titulo-secao">Catálogo de Cursos</h1>
+      <p>Encontre formações em tecnologia, pesquisa e análise de dados.</p>
+
+      <section class="painel-filtros" aria-label="Pesquisa e filtros de cursos">
+        <div class="form-grid">
+          <div class="campo-grupo">
+            <label for="busca-curso">Pesquisar curso</label>
+            <input type="search" id="busca-curso" placeholder="Digite o nome, assunto ou instrutor..." autocomplete="off">
+          </div>
+          <div class="campo-grupo">
+            <label for="filtro-categoria">Categoria</label>
+            <select id="filtro-categoria">
+              <option value="todas">Todas as categorias</option>
+              <option value="Tecnologia">Tecnologia</option>
+              <option value="Pesquisa">Pesquisa</option>
+              <option value="Dados">Dados</option>
+            </select>
+          </div>
+        </div>
+        <div class="linha-filtros">
+          <p id="resultado-contagem" aria-live="polite">Carregando cursos...</p>
+          <button class="btn btn-secundario" type="button" id="limpar-filtros">Limpar filtros</button>
+        </div>
+      </section>
+
+      <section aria-label="Cursos disponíveis">
+        <div class="grid-cursos" id="lista-cursos"></div>
+      </section>
+    </div>
+
+    <!-- 3. AUTENTICAÇÃO (auth.html) -->
+    <div id="view-auth" class="view-section">
+      <h1 class="titulo-secao">Acesse sua conta</h1>
+      <div class="layout-duas-colunas">
+        <section class="card-form" aria-labelledby="titulo-login">
+          <h2 id="titulo-login">Entrar</h2>
+          <form id="form-login">
+            <div class="campo-grupo">
+              <label for="login-email">E-mail</label>
+              <input type="email" id="login-email" required autocomplete="email">
+            </div>
+            <div class="campo-grupo">
+              <label for="login-senha">Senha</label>
+              <input type="password" id="login-senha" required autocomplete="current-password">
+            </div>
+            <button class="btn" type="submit">Entrar</button>
+          </form>
+        </section>
+
+        <section class="card-form" aria-labelledby="titulo-cadastro">
+          <h2 id="titulo-cadastro">Criar cadastro</h2>
+          <form id="form-cadastro">
+            <div class="campo-grupo">
+              <label for="cad-nome">Nome completo</label>
+              <input type="text" id="cad-nome" required minlength="3" autocomplete="name">
+            </div>
+            <div class="campo-grupo">
+              <label for="cad-email">E-mail</label>
+              <input type="email" id="cad-email" required autocomplete="email">
+            </div>
+            <div class="campo-grupo">
+              <label for="cad-senha">Senha (mínimo de 8 caracteres)</label>
+              <input type="password" id="cad-senha" required minlength="8" autocomplete="new-password">
+            </div>
+            <div class="campo-grupo">
+              <label for="cad-perfil">Perfil</label>
+              <select id="cad-perfil" required>
+                <option value="aluno">Aluno</option>
+                <option value="instrutor">Instrutor</option>
+              </select>
+            </div>
+            <button class="btn btn-secundario" type="submit">Cadastrar</button>
+          </form>
+        </section>
+      </div>
+      <p class="aviso-prototipo">Demonstração acadêmica: o cadastro é salvo apenas neste navegador. Não use senha real. Uma versão de produção precisa de servidor e armazenamento seguro.</p>
+    </div>
+
+    <!-- 4. ÁREA DO ALUNO (aluno.html) -->
+    <div id="view-aluno" class="view-section">
+      <h1 class="titulo-secao">Área do Aluno</h1>
+      <p id="usuario-atual-aluno" aria-live="polite"></p>
+      <section class="box-destaque" id="area-aluno-conteudo" aria-live="polite">
+        Carregando suas matrículas...
+      </section>
+      <p><button type="button" class="btn" data-route="catalogo">Explorar cursos</button></p>
+    </div>
+
+    <!-- 5. ÁREA DO INSTRUTOR (instrutor.html) -->
+    <div id="view-instrutor" class="view-section">
+      <h1 class="titulo-secao">Área do Instrutor</h1>
+      <p id="usuario-atual-instrutor" aria-live="polite" style="margin-bottom: 1rem;"></p>
+      <section class="box-destaque">
+        <h2>Painel do instrutor</h2>
+        <p>Esta área está preparada como ponto de partida para o gerenciamento de cursos, conteúdos e turmas.</p>
+        <p>Na versão atual, o instrutor pode acessar o catálogo e visualizar a estrutura da plataforma. A criação e edição de cursos ainda precisam de integração com um backend.</p>
+        <button type="button" class="btn" data-route="catalogo">Visualizar catálogo</button>
+      </section>
+    </div>
+  </main>
+
+  <footer>
+    <div class="container">
+      <p>Projeto Final de Web I - IFPB | Equipe: Diogo, Jailson e Luiz O. Gonzaga</p>
+    </div>
+  </footer>
+
+  <script>
+    /* EduConecta — funcionalidades da versão beta (script.js unificado)
+       Front-end demonstrativo: os dados ficam no navegador (localStorage).
+    */
+    "use strict";
+
+    const STORAGE = {
+      users: "educonecta_users",
+      currentUser: "educonecta_current_user",
+      enrollments: "educonecta_enrollments",
+      favorites: "educonecta_favorites"
+    };
+
+    const courses = [
+      {
+        id: "web1",
+        title: "Fundamentos de Desenvolvimento Web I",
+        category: "Tecnologia",
+        instructor: "Prof. Diogo Alves",
+        workload: "40h",
+        description: "Aprenda HTML5 semântico, CSS3 responsivo, Flexbox, Grid e boas práticas de acessibilidade na web.",
+        image: "https://placehold.co/600x300/1e40af/ffffff?text=Desenvolvimento+Web+I"
+      },
+      {
+        id: "pesquisa",
+        title: "Metodologia da Pesquisa Científica",
+        category: "Pesquisa",
+        instructor: "Prof. Jailson",
+        workload: "30h",
+        description: "Estruturação de artigos acadêmicos, revisão bibliográfica e normas técnicas para pesquisadores.",
+        image: "https://placehold.co/600x300/0f766e/ffffff?text=Metodologia+Cientifica"
+      },
+      {
+        id: "dados",
+        title: "Modelagem e Projeto de Banco de Dados",
+        category: "Dados",
+        instructor: "Prof. Luiz O. Gonzaga",
+        workload: "45h",
+        description: "Conceitos de modelagem entidade-relacionamento, normalização e consultas SQL essenciais.",
+        image: "https://placehold.co/600x300/334155/ffffff?text=Banco+de+Dados"
+      },
+      {
+        id: "python",
+        title: "Introdução à Programação com Python",
+        category: "Tecnologia",
+        instructor: "Equipe EduConecta",
+        workload: "35h",
+        description: "Lógica de programação, variáveis, condicionais, repetições e funções com Python.",
+        image: "https://placehold.co/600x300/7c3aed/ffffff?text=Python"
+      },
+      {
+        id: "dados-pesquisa",
+        title: "Análise de Dados para Pesquisa",
+        category: "Pesquisa",
+        instructor: "Equipe EduConecta",
+        workload: "25h",
+        description: "Organize, explore e interprete dados para apoiar trabalhos acadêmicos.",
+        image: "https://placehold.co/600x300/0369a1/ffffff?text=Analise+de+Dados"
+      }
+    ];
+
+    function readStorage(key, fallback = []) {
+      try {
+        return JSON.parse(localStorage.getItem(key)) ?? fallback;
+      } catch (error) {
+        console.error(`Não foi possível ler ${key}:`, error);
+        return fallback;
+      }
+    }
+
+    function writeStorage(key, value) {
+      localStorage.setItem(key, JSON.stringify(value));
+    }
+
+    function normalize(value) {
+      return String(value ?? "")
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "")
+        .toLowerCase()
+        .trim();
+    }
+
+    let toastTimer = null;
+    function showMessage(message, type = "success", targetId = "mensagem-global") {
+      let area = document.getElementById(targetId);
+      if (!area) {
+        area = document.createElement("div");
+        area.id = targetId;
+        area.className = "mensagem-global";
+        area.setAttribute("role", "status");
+        area.setAttribute("aria-live", "polite");
+        document.body.appendChild(area);
+      }
+      area.textContent = message;
+      area.dataset.type = type;
+      area.hidden = false;
+
+      if (toastTimer) clearTimeout(toastTimer);
+      toastTimer = setTimeout(() => {
+        area.hidden = true;
+      }, 4000);
+    }
+
+    function getCurrentUser() {
+      return readStorage(STORAGE.currentUser, null);
+    }
+
+    function navigateTo(route) {
+      const validRoutes = ["inicio", "catalogo", "auth", "aluno", "instrutor"];
+      const targetRoute = validRoutes.includes(route) ? route : "inicio";
+
+      document.querySelectorAll(".view-section").forEach(section => {
+        section.classList.remove("ativa");
+      });
+      const activeSection = document.getElementById(`view-${targetRoute}`);
+      if (activeSection) activeSection.classList.add("ativa");
+
+      document.querySelectorAll("nav .nav-link").forEach(link => {
+        const isCurrent = link.dataset.route === targetRoute;
+        link.classList.toggle("ativo", isCurrent);
+        if (isCurrent) link.setAttribute("aria-current", "page");
+        else link.removeAttribute("aria-current");
+      });
+
+      if (targetRoute === "catalogo") filterCourses();
+      if (targetRoute === "aluno") renderStudentArea();
+      updateSessionUI();
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+
+    function updateSessionUI() {
+      const user = getCurrentUser();
+      const authItem = document.getElementById("nav-item-auth");
+      const logoutItem = document.getElementById("nav-item-logout");
+      const welcomeAluno = document.getElementById("usuario-atual-aluno");
+      const welcomeInstrutor = document.getElementById("usuario-atual-instrutor");
+
+      if (user) {
+        if (authItem) authItem.hidden = true;
+        if (logoutItem) logoutItem.hidden = false;
+        const msg = `Conectado como ${user.name} (${user.profile})`;
+        if (welcomeAluno) welcomeAluno.textContent = msg;
+        if (welcomeInstrutor) welcomeInstrutor.textContent = msg;
+      } else {
+        if (authItem) authItem.hidden = false;
+        if (logoutItem) logoutItem.hidden = true;
+        if (welcomeAluno) welcomeAluno.textContent = "";
+        if (welcomeInstrutor) welcomeInstrutor.textContent = "";
+      }
+    }
+
+    function renderCourseCards(list, container) {
+      if (!container) return;
+      container.replaceChildren();
+
+      if (list.length === 0) {
+        const empty = document.createElement("p");
+        empty.className = "estado-vazio";
+        empty.textContent = "Nenhum curso encontrado. Tente outro termo ou categoria.";
+        container.appendChild(empty);
+        return;
+      }
+
+      const user = getCurrentUser();
+      const favorites = readStorage(STORAGE.favorites);
+      const enrollments = readStorage(STORAGE.enrollments);
+
+      list.forEach((course) => {
+        const article = document.createElement("article");
+        article.className = "card-curso";
+
+        const image = document.createElement("img");
+        image.src = course.image;
+        image.alt = `Ilustração do curso ${course.title}`;
+        image.loading = "lazy";
+
+        const body = document.createElement("div");
+        body.className = "card-corpo";
+
+        const badge = document.createElement("span");
+        badge.className = "badge";
+        badge.textContent = course.category;
+
+        const title = document.createElement("h3");
+        title.textContent = course.title;
+
+        const description = document.createElement("p");
+        description.textContent = course.description;
+
+        const meta = document.createElement("div");
+        meta.className = "card-meta";
+        const instructor = document.createElement("span");
+        instructor.textContent = course.instructor;
+        const workload = document.createElement("span");
+        workload.textContent = course.workload;
+        meta.append(instructor, workload);
+
+        const actions = document.createElement("div");
+        actions.className = "acoes-curso";
+
+        const enroll = document.createElement("button");
+        enroll.type = "button";
+        enroll.className = "btn";
+        const enrolled = user
+          ? enrollments.some(item => item.courseId === course.id && item.email === user.email)
+          : false;
+        enroll.textContent = enrolled ? "Matriculado" : "Matricular-se";
+        enroll.disabled = enrolled;
+        enroll.addEventListener("click", () => enrollInCourse(course.id));
+
+        const favorite = document.createElement("button");
+        favorite.type = "button";
+        favorite.className = "btn btn-secundario";
+        const isFavorite = favorites.includes(course.id);
+        favorite.textContent = isFavorite ? "Remover favorito" : "Favoritar";
+        favorite.setAttribute("aria-pressed", String(isFavorite));
+        favorite.addEventListener("click", () => toggleFavorite(course.id));
+
+        actions.append(enroll, favorite);
+        body.append(badge, title, description, meta, actions);
+        article.append(image, body);
+        container.appendChild(article);
+      });
+    }
+
+    function filterCourses() {
+      const search = normalize(document.getElementById("busca-curso")?.value);
+      const category = document.getElementById("filtro-categoria")?.value || "todas";
+      const filtered = courses.filter(course => {
+        const matchesSearch = normalize(
+          `${course.title} ${course.description} ${course.instructor} ${course.category}`
+        ).includes(search);
+        const matchesCategory = category === "todas" || course.category === category;
+        return matchesSearch && matchesCategory;
+      });
+
+      const count = document.getElementById("resultado-contagem");
+      if (count) {
+        count.textContent = `${filtered.length} ${filtered.length === 1 ? "curso encontrado" : "cursos encontrados"}`;
+      }
+      renderCourseCards(filtered, document.getElementById("lista-cursos"));
+    }
+
+    function enrollInCourse(courseId) {
+      const user = getCurrentUser();
+      if (!user) {
+        showMessage("Entre na sua conta para realizar uma matrícula.", "error");
+        navigateTo("auth");
+        return;
+      }
+
+      if (user.profile !== "aluno") {
+        showMessage("A matrícula está disponível para contas do perfil Aluno.", "error");
+        return;
+      }
+
+      const enrollments = readStorage(STORAGE.enrollments);
+      if (enrollments.some(item => item.courseId === courseId && item.email === user.email)) {
+        showMessage("Você já está matriculado neste curso.", "info");
+        return;
+      }
+
+      enrollments.push({ courseId, email: user.email, date: new Date().toISOString() });
+      writeStorage(STORAGE.enrollments, enrollments);
+      showMessage("Matrícula realizada com sucesso!");
+      filterCourses();
+    }
+
+    function toggleFavorite(courseId) {
+      const favorites = readStorage(STORAGE.favorites);
+      const index = favorites.indexOf(courseId);
+      if (index >= 0) favorites.splice(index, 1);
+      else favorites.push(courseId);
+      writeStorage(STORAGE.favorites, favorites);
+      showMessage(index >= 0 ? "Curso removido dos favoritos." : "Curso adicionado aos favoritos.");
+      filterCourses();
+    }
+
+    function registerForm() {
+      const form = document.getElementById("form-cadastro");
+      if (!form) return;
+
+      form.addEventListener("submit", (event) => {
+        event.preventDefault();
+        if (!form.reportValidity()) return;
+
+        const name = document.getElementById("cad-nome").value.trim();
+        const email = normalize(document.getElementById("cad-email").value);
+        const password = document.getElementById("cad-senha").value;
+        const profile = document.getElementById("cad-perfil").value;
+
+        if (password.length < 8) {
+          showMessage("A senha deve possuir pelo menos 8 caracteres.", "error");
+          return;
+        }
+
+        const users = readStorage(STORAGE.users);
+        if (users.some(user => user.email === email)) {
+          showMessage("Já existe uma conta cadastrada com este e-mail.", "error");
+          return;
+        }
+
+        users.push({ name, email, password, profile });
+        writeStorage(STORAGE.users, users);
+        writeStorage(STORAGE.currentUser, { name, email, profile });
+        form.reset();
+        showMessage("Cadastro concluído! Você já está conectado.");
+        navigateTo(profile === "instrutor" ? "instrutor" : "aluno");
+      });
+    }
+
+    function loginForm() {
+      const form = document.getElementById("form-login");
+      if (!form) return;
+
+      form.addEventListener("submit", (event) => {
+        event.preventDefault();
+        if (!form.reportValidity()) return;
+
+        const email = normalize(document.getElementById("login-email").value);
+        const password = document.getElementById("login-senha").value;
+        const user = readStorage(STORAGE.users).find(
+          item => item.email === email && item.password === password
+        );
+
+        if (!user) {
+          showMessage("E-mail ou senha incorretos. Confira os dados e tente novamente.", "error");
+          return;
+        }
+
+        const session = { name: user.name, email: user.email, profile: user.profile };
+        writeStorage(STORAGE.currentUser, session);
+        form.reset();
+        showMessage(`Bem-vindo(a), ${user.name}!`);
+        navigateTo(user.profile === "instrutor" ? "instrutor" : "aluno");
+      });
+    }
+
+    function logout() {
+      localStorage.removeItem(STORAGE.currentUser);
+      showMessage("Você saiu da sua conta.");
+      navigateTo("inicio");
+    }
+
+    function renderStudentArea() {
+      const target = document.getElementById("area-aluno-conteudo");
+      if (!target) return;
+      const user = getCurrentUser();
+      if (!user || user.profile !== "aluno") {
+        target.textContent = "Entre com uma conta de aluno para visualizar suas matrículas.";
+        return;
+      }
+
+      const mine = readStorage(STORAGE.enrollments).filter(item => item.email === user.email);
+      const title = document.createElement("h2");
+      title.textContent = `Olá, ${user.name}`;
+      const intro = document.createElement("p");
+      intro.textContent = `Você possui ${mine.length} ${mine.length === 1 ? "matrícula" : "matrículas"}.`;
+      const list = document.createElement("ul");
+      list.className = "lista-aulas";
+
+      mine.forEach(item => {
+        const course = courses.find(entry => entry.id === item.courseId);
+        if (!course) return;
+        const li = document.createElement("li");
+        li.textContent = `${course.title} — ${course.workload}`;
+        list.appendChild(li);
+      });
+
+      if (!mine.length) {
+        const li = document.createElement("li");
+        li.textContent = "Você ainda não possui matrículas. Explore o catálogo para começar.";
+        list.appendChild(li);
+      }
+
+      target.replaceChildren(title, intro, list);
+    }
+
+    document.addEventListener("DOMContentLoaded", () => {
+      document.querySelectorAll("[data-route]").forEach(el => {
+        el.addEventListener("click", (e) => {
+          e.preventDefault();
+          navigateTo(el.dataset.route);
+        });
+      });
+
+      document.getElementById("busca-curso")?.addEventListener("input", filterCourses);
+      document.getElementById("filtro-categoria")?.addEventListener("change", filterCourses);
+      document.getElementById("limpar-filtros")?.addEventListener("click", () => {
+        const search = document.getElementById("busca-curso");
+        const category = document.getElementById("filtro-categoria");
+        if (search) search.value = "";
+        if (category) category.value = "todas";
+        filterCourses();
+      });
+
+      filterCourses();
+      registerForm();
+      loginForm();
+      renderStudentArea();
+      updateSessionUI();
+
+      document.querySelectorAll("[data-logout]").forEach(button => {
+        button.addEventListener("click", logout);
+      });
+    });
+  </script>
+</body>
+</html>
